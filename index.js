@@ -13,6 +13,8 @@ const ssoApiClient = Axios.create({
   baseURL: 'https://sso.runetek.io/api'
 })
 
+const BroadcastSecretKey = process.env.WEBHOOK_KEY || 'abc123'
+
 const fetchCurrentRev = () => ssoApiClient.get('revision').then(({ data }) => data.revision)
 
 class RevisionBroadcaster {
@@ -74,6 +76,10 @@ const init = async () => {
 
   app.get('/broadcast', (req, res) => {
     const location = url.parse(req.url, true)
+
+    if (location.query.key !== BroadcastSecretKey) {
+      return res.status(403).send('Not authorized')
+    }
 
     broadcaster.revision = +location.query.rev
 
