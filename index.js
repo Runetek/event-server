@@ -13,7 +13,12 @@ const ssoApiClient = Axios.create({
   baseURL: 'https://sso.runetek.io/api'
 })
 
-const BroadcastSecretKey = process.env.WEBHOOK_KEY || 'abc123'
+const BroadcastSecretKey = process.env.WEBHOOK_KEY
+
+if (!BroadcastSecretKey) {
+  console.error('Error: WEBHOOK_KEY must be set')
+  process.exit(1)
+}
 
 const fetchCurrentRev = () => ssoApiClient.get('revision').then(({ data }) => data.revision)
 
