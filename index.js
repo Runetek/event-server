@@ -77,6 +77,19 @@ const init = async () => {
     ws.send(broadcaster.revision)
   })
 
+  app.get('/', (req, res) => {
+    fetchCurrentRev().then(rev => {
+      res.send({
+        revision: rev
+      })
+    }).catch(e => {
+      res.status(500).send({
+        error: 'Internal service error occurred'
+      })
+      console.error(e)
+    })
+  })
+
   setInterval(function () {
     wss.clients.forEach(clientHeartbeat)
   }, 30e3)
