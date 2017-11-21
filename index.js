@@ -7,6 +7,9 @@ const WebSocket = require('ws')
 const Axios = require('axios')
 
 const app = express()
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.json())
 
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
@@ -88,7 +91,7 @@ const init = async () => {
       return res.status(403).send('Not authorized')
     }
 
-    broadcaster.revision = +location.query.rev
+    broadcaster.revision = +req.body.revision
 
     res.send('ye')
   })
