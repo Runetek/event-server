@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Runetek/event-server#readme",
   "dependencies": {
+    "axios": "^0.17.1",
     "express": "^4.16.2",
     "ws": "^3.3.2"
   }
