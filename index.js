@@ -7,9 +7,6 @@ const WebSocket = require('ws')
 const Axios = require('axios')
 
 const app = express()
-const bodyParser = require('body-parser')
-
-app.use(bodyParser.json())
 
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
@@ -84,16 +81,16 @@ const init = async () => {
     wss.clients.forEach(clientHeartbeat)
   }, 30e3)
 
-  app.post('/broadcast', (req, res) => {
+  app.get('/broadcast', (req, res) => {
     const location = url.parse(req.url, true)
 
     if (location.query.key !== BroadcastSecretKey) {
       return res.status(403).send('Not authorized')
     }
 
-    broadcaster.revision = +req.body.revision
-
-    res.send('ye')
+    fetchCurrentRev().then(rev => {
+      broadcaster.revision = rev
+    })
   })
 
   server.listen(8080, function listening() {
