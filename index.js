@@ -81,7 +81,7 @@ const init = async () => {
     wss.clients.forEach(clientHeartbeat)
   }, 30e3)
 
-  app.get('/broadcast', (req, res) => {
+  app.post('/broadcast', (req, res) => {
     const location = url.parse(req.url, true)
 
     if (location.query.key !== BroadcastSecretKey) {
