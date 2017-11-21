@@ -90,6 +90,7 @@ const init = async () => {
 
     fetchCurrentRev().then(rev => {
       broadcaster.revision = rev
+      res.send('OK')
     })
   })
 
