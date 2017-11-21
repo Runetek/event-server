@@ -41,14 +41,36 @@ wss.broadcast = function broadcast(data) {
   })
 }
 
+function clientHeartbeat (ws) {
+  try {
+    if (ws.isAlive === false) {
+      return ws.terminate()
+    }
+
+    // fail silently
+    ws.ping('', false, true)
+    ws.isAlive = false
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 const init = async () => {
   const revision = await fetchCurrentRev()
 
   const broadcaster = new RevisionBroadcaster(wss, revision)
 
-  wss.on('connection', function connection(ws, req) {
+  wss.on('connection', (ws, req) => {
+    ws.isAlive = true
+    ws.on('pong', () => {
+      ws.isAlive = true
+    })
     ws.send(broadcaster.revision)
   })
+
+  setInterval(function () {
+    wss.clients.forEach(clientHeartbeat)
+  }, 30e3)
 
   app.get('/broadcast', (req, res) => {
     const location = url.parse(req.url, true)
