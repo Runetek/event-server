@@ -1,0 +1,23 @@
+{
+  "name": "sso-event-server",
+  "version": "0.1.0",
+  "description": "Broadcasts events from sso.runetek.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Runetek/event-server.git"
+  },
+  "author": "Kyle Stevenson <kyle@kylestevenson.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Runetek/event-server/issues"
+  },
+  "homepage": "https://github.com/Runetek/event-server#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "ws": "^3.3.2"
+  }
+}
